@@ -1,5 +1,7 @@
 package com.machado.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -24,6 +26,9 @@ public class Product implements Serializable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categorySet = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> itemSet = new HashSet<>();
 
     public Product() {
     }
@@ -78,6 +83,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategorySet() {
         return categorySet;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrderSet(){
+        Set<Order> set = new HashSet<>();
+        for(OrderItem x : itemSet){
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override
