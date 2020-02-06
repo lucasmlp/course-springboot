@@ -3,7 +3,6 @@ package com.machado.course.services;
 import com.machado.course.entities.User;
 import com.machado.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,5 +21,10 @@ public class UserService {
     public User findById(Long id){
         Optional<User> obj = userRepository.findById(id);
         return obj.get();
+    }
+
+    public User insertUser(User user){
+        user = userRepository.save(user);
+        return user;
     }
 }
